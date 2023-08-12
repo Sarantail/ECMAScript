@@ -1,46 +1,73 @@
-// Задание 1: "Управление библиотекой книг"
+// Задание 1: ""Управление персоналом компании""
 
-// Реализуйте класс Book, представляющий книгу, со следующими свойствами и методами:
+// Реализуйте класс Employee (сотрудник), который имеет следующие свойства и методы:
+// Свойство name (имя) - строка, имя сотрудника.
+// Метод displayInfo() - выводит информацию о сотруднике (имя).
 
-// Свойство title (название) - строка, название книги.
-// Свойство author (автор) - строка, имя автора книги.
-// Свойство grade (количество страниц) - число, количество страниц в книге.
-// Метод displayInfo() - выводит информацию о книге (название, автор и количество страниц).
-        class Book {
-            constructor(title, author, grade) {
-                this.title = title;
-                this.author = author;
-                this.grade = grade;
-            }
-            displayInfo() {
-                console.log(book.title); 
-                console.log(book.author); 
-                console.log(book.grade); 
-            }
+// Реализуйте класс Manager (менеджер), который наследует класс Employee и имеет дополнительное свойство и метод:
+// Свойство department (отдел) - строка, отдел, в котором работает менеджер.
+// Метод displayInfo() - переопределяет метод displayInfo() родительского класса и выводит информацию о менеджере (имя и отдел).
+class Employee {
+    constructor(name) {
+        this.name = name;
+    }
+    displayInfo() {
+        console.log(employee.name); 
+    }
+}
+
+const employee = new Employee('Виктор');
+
+class Manager extends Employee {
+    constructor(department) {
+        this.department = department;
+    }
+    displayInfo() {
+        console.log(manager.name, manager.department); 
+    }
+}
+
+const manager = new Manager('Елизавета', 'Отдел продаж');
+
+
+// ""Управление списком заказов""
+
+// Реализуйте класс Order (заказ), который имеет следующие свойства и методы:
+
+// Свойство orderNumber (номер заказа) - число, уникальный номер заказа.
+// Свойство products (продукты) - массив, содержащий список продуктов в заказе.
+
+// Метод addProduct(product) - принимает объект product и добавляет его в список продуктов заказа.
+// Метод getTotalPrice() - возвращает общую стоимость заказа, основанную на ценах продуктов.
+class Product {
+    constructor(name, price) {
+        this.name = name;
+        this.price = price;
+    }
+}
+
+class Order {
+    constructor(orderNumber) {
+        this.orderNumber = orderNumber;
+        this.products = [];
+        this.addProduct = function (newObject) {
+            this.products.push(newObject);
+        };
+    }
+    getTotalPrice() {
+        for (let i = 0; i < this.products.length; i++) {
+            this.amount += this.products[i].price;
         }
+        return this.amount;
+    }
+}
+const order = new Order(12345);
 
-        let book = new Book('Евгений Онегин', 'А.С.Пушкин', 288);
+const product1 = new Product("Phone", 500);
+order.addProduct(product1);
 
+const product2 = new Product("Headphones", 100);
+order.addProduct(product2);
 
+console.log(order.getTotalPrice()); 
 
-// Задание 2: "Управление списком студентов"
-// Реализуйте класс Student, представляющий студента, со следующими свойствами и методами:
-
-// Свойство name (имя) - строка, имя студента.
-// Свойство age (возраст) - число, возраст студента.
-// Свойство grade (класс) - строка, класс, в котором учится студент.
-// Метод displayInfo() - выводит информацию о студенте в консоль.
-        class Student {
-            constructor(name, age, grade) {
-                this.name = name;
-                this.age = age;
-                this.grade = grade;
-            }
-            displayInfo() {
-                console.log(book.name); 
-                console.log(book.age); 
-                console.log(book.grade); 
-            }
-        }
-
-        let student = new Student('Вова', 20, 2);
