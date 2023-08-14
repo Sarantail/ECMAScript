@@ -1,46 +1,75 @@
-// Задание 1: "Управление библиотекой книг"
+// Задание 1. Получение данных о пользователе.
 
-// Реализуйте класс Book, представляющий книгу, со следующими свойствами и методами:
+// Реализуйте функцию getUserData, которая принимает идентификатор пользователя (ID) в качестве аргумента 
+// и использует fetch для получения данных о пользователе с заданным ID с удаленного сервера.
+// Функция должна возвращать промис, который разрешается с данными о пользователе в виде объекта.Если пользователь с указанным ID не найден,
+// промис должен быть отклонен с соответствующим сообщением об ошибке.
 
-// Свойство title (название) - строка, название книги.
-// Свойство author (автор) - строка, имя автора книги.
-// Свойство grade (количество страниц) - число, количество страниц в книге.
-// Метод displayInfo() - выводит информацию о книге (название, автор и количество страниц).
-        class Book {
-            constructor(title, author, grade) {
-                this.title = title;
-                this.author = author;
-                this.grade = grade;
-            }
-            displayInfo() {
-                console.log(book.title); 
-                console.log(book.author); 
-                console.log(book.grade); 
-            }
-        }
+// Подсказка, с последовательностью действий:
+// getUserData использует fetch для получения данных о пользователе с удаленного сервера. Если запрос успешен (с кодом 200), 
+// функция извлекает данные из ответа с помощью response.json() и возвращает объект с данными о пользователе.
+// Если запрос неуспешен, функция отклоняет промис с сообщением об ошибке.
 
-        let book = new Book('Евгений Онегин', 'А.С.Пушкин', 288);
+// Работа должна быть выполнена с API: https://reqres.in/
+async function getUserData(idsearch) {
+    url = 'https://api.github.com/users';
+    console.log(url);
+    const response = await fetch(url)
+    .then(async (response) => {
+        let index;
+        if (response.ok) {
+        const answer = await response.json().then((answer) => {
+            index = answer.findIndex((p) => p.id == idsearch);
+            if (index < 0)
+            console.log(
+                `Ошибка - пользователь с таким id = ${idsearch} не найден`
+            );
+            else console.log(answer[index]);
+        });
+        } else console.log(`Ошибка -  неправильный запрос`);
+    })
+    .catch((error) => {
+        console.log('Произошла ошибка:');
+        console.log(error.message);
+    });
+}
+getUserData('10');
 
 
+// Задание 2. Отправка данных на сервер.
 
-// Задание 2: "Управление списком студентов"
-// Реализуйте класс Student, представляющий студента, со следующими свойствами и методами:
+// Реализуйте функцию saveUserData, которая принимает объект с данными о пользователе в качестве аргумента 
+// и использует fetch для отправки этих данных на удаленный сервер для сохранения.
+// Функция должна возвращать промис, который разрешается, если данные успешно отправлены, или отклоняется в случае ошибки.
 
-// Свойство name (имя) - строка, имя студента.
-// Свойство age (возраст) - число, возраст студента.
-// Свойство grade (класс) - строка, класс, в котором учится студент.
-// Метод displayInfo() - выводит информацию о студенте в консоль.
-        class Student {
-            constructor(name, age, grade) {
-                this.name = name;
-                this.age = age;
-                this.grade = grade;
-            }
-            displayInfo() {
-                console.log(book.name); 
-                console.log(book.age); 
-                console.log(book.grade); 
-            }
-        }
-
-        let student = new Student('Вова', 20, 2);
+const user = {
+    name: 'John Smith',
+    age: 30,
+    email: 'john@example.com',
+};
+const saveUserData = async (user) => {
+    url = 'https://api.github.com/users';
+    const response = await fetch(url, {
+    method: 'post',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user),
+    }).then((response) => {
+    if (response.status === 200) {
+        return response;
+    } else {
+        throw new Error('Not saved');
+    }
+    });
+};
+const response = saveUserData(user)
+    .then((response) => {
+    if ((response.status = 'ok')) {
+        console.log('User data saved successfully');
+    }
+    })
+    .catch((error) => {
+    console.log(error.message);
+    });
